@@ -1,6 +1,7 @@
 import telebot
 import random
 from telebot import types
+from glob import glob
 
 import config
 
@@ -18,7 +19,7 @@ def welcome(message):
 
 # Keyboard
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = types.KeyboardButton('Рандомное число')
+    item1 = types.KeyboardButton('Мотоцикл')
     item2 = types.KeyboardButton('Как дела?')
     item3 = types.KeyboardButton('Бот йобаный!!!')
 
@@ -27,12 +28,17 @@ def welcome(message):
     mess = f'Добро пожаловать! <b>{message.from_user.first_name} <u>{message.from_user.last_name}</u></b>'
     bot.send_message(message.chat.id, mess, parse_mode='html', reply_markup=markup)
 
+def send_moto_picture(message):
+    moto_list = glob('Pictures//moto*.jp*g')
+    moto_pic = random.choice(moto_list)
+    bot.send_photo(message.chat.id, photo=open(moto_pic, 'rb'))
+
 @bot.message_handler(content_types=['text'])
 def lalala(message):
     if message.chat.type == 'private':
         stic_eba = open('Pictures//sticker12.webp', 'rb')
-        if message.text == 'Рандомное число':
-            bot.send_message(message.chat.id, str(random.randint(0, 100)))
+        if message.text == 'Мотоцикл':
+            send_moto_picture(message)
         elif message.text == 'Как дела?':
             bot.send_message(message.chat.id, 'Отлично, как сам?')
         elif message.text == 'Бот йобаный!!!':
