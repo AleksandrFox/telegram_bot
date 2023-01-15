@@ -2,3 +2,4 @@ passwords.txt
 *.log
 config.py
 __pycache__
+ams/
